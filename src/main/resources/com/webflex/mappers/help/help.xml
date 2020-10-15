@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- HelpNotice start -->
+<mapper namespace="Help">
+
+<select id="notice_count" resultType="int">
+select count(*) from wf_notice order by notice_no desc
+</select>
+
+<select id="notice_list" resultType="h">
+	select * from
+  	(select rowNum rNum,notice_no,notice_writer,notice_title,notice_hit,notice_date from
+   (select * from wf_notice order by notice_no desc))
+   	where rNum &gt;= #{startrow} and rNum &lt;= #{endrow}
+</select>
+
+<!-- 공지 조회수 증가 -->
+   <update id="upHit">
+    update wf_notice set notice_hit=notice_hit+1 
+    where notice_no= #{notice_no}
+   </update>
+   
+<!-- 게시물 내용 가져오기 -->
+   <select id="notice_cont" resultType="h">
+  	select * from wf_notice where notice_no = #{notice_no}
+   </select>
+<!-- HelpNotice END -->
+
+
+</mapper>

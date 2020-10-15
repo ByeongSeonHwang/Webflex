@@ -1,0 +1,66 @@
+@charset "UTF-8";
+@font-face {
+	font-family: 'BebasNeue';
+	src: url("../images/BebasNeue.otf");
+}
+body {
+	background-size: 100%;
+}
+
+@font-face {
+	font-family: 'NanumSquareRound';
+	src:
+		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/NanumSquareRound.woff')
+		format('woff');
+	font-weight: normal;
+	font-style: normal;
+	font-size: 1.0rem;
+}
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,a,button,form,fieldset,p,blockquote{margin:0;padding:0}
+img, fieldset {border:none}
+body, dl, dt, dd, th, td, div, p, a, button, table,li, form, fieldset,legend, input, button, textarea, select {}
+body, dl, dt, dd, th, td, div, p, a, button, table,li {font-size:12px;}
+form, fieldset,legend, input, button, textarea, select {font-size:13px}
+ul, ol {list-style:none}
+table {border-collapse:collapse}
+input, textarea {display:inline-block;font-size:13px;vertical-align:middle}
+textarea {resize:none} 
+address, em {font-style:normal}
+th, td {padding:0;vertical-align:top;text-align:left;font-weight:normal}
+header {
+	margin-left: 40px;
+	margin-top: 20px;
+}
+
+h3{
+	text-align: center;
+}
+#birth{
+	color : black;
+	padding : 0px 15px;	
+	font-size:20px;
+}
+#join_birth{
+		border-color: #DB202C;
+	border-style: solid;
+	border-width: 0 0 0 13px;
+	align-items : center;
+}
+#birthyy,#birthmm,#birthdd{
+	margin-left : 25px;
+	font-family: 'BebasNeue','NanumSquareRound';
+	width:100px;
+	outline: none;
+	border : 1px solid #DB202C;
+	word-break: break-all;
+	background-color: white;
+	color: #DB202C;
+	font-size: 1em;
+}
+#birthyy:hover,#birthmm:hover,#birthdd:hover{
+		font-family: 'BebasNeue','NanumSquareRound';
+	background-color: white;
+	color: #DB202C;
+	font-size: 1em;
+	box-shadow: 1px 1px 1px #DB202C;
+}

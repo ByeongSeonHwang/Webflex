@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Board">
+	<!-- 게시판 입력 -->
+	<insert id="wf_board_insert">
+		insert into wf_board (board_no,email,board_title,board_writer, board_cont,board_path,board_date)
+		values (board_no_seq.nextval,#{email},#{board_title},#{board_writer},#{board_cont},#{board_path},sysdate)
+	</insert>
+	
+	<!-- 이미지 없는 게시판 입력 -->
+	<insert id="wf_board_noImgInsert">
+		 insert into wf_board (board_no,email,board_title,board_writer, board_cont,board_date)
+     	 values (board_no_seq.nextval,#{email},#{board_title},#{board_writer},#{board_cont},sysdate)
+	</insert>
+	
+	
+	<!-- 게시물 목록 불러오기 -->
+	<select id="wf_board_list" resultType="board">
+		select * from
+  		(select rowNum rNum,board_no,board_writer,board_title,board_hit,board_date from
+   		(select * from wf_board order by board_no desc))
+   		where rNum &gt;= #{startrow} and rNum &lt;= #{endrow}
+	</select>
+	
+	
+	<!-- 게시글 가져오기 -->
+	<select id="findNo" resultType="board">
+		select * from wf_board where board_no = #{board_no}
+	</select>
+	
+	<!-- 게시판 수정 -->
+	<update id="boardEdit">
+		update wf_board set board_title = #{board_title}, board_writer = #{board_writer}, board_cont = #{board_cont} where board_no = #{board_no}
+	</update>
+	
+	<!-- 이미지 없는 게시판 수정 -->
+	<update id="wf_board_noImgEdit">
+		update wf_board set board_title = #{board_title}, board_cont = #{board_cont}, board_path = null where board_no = #{board_no}
+	</update>
+	
+	<!-- 게시판 삭제 -->
+	<delete id="boardDel">
+		delete from wf_board where board_no = #{bno}
+	</delete>
+	
+	<!-- 게시글 개수 -->
+	<select id="wf_board_count" resultType="int">
+		select count(*) from wf_board order by board_no desc
+	</select>
+	
+	<!-- 조회수 증가 -->
+	<update id="board_hit_up">
+		update wf_board set board_hit = board_hit+1 where board_no = #{board_no}
+	</update>
+	
+	<!-- 글쓴이 변경 -->
+	<update id="board_nick_change">
+		update wf_board set board_writer = #{nick} where email = #{email}
+	</update>
+
+</mapper>

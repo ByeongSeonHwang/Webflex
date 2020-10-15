@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd" >
+
+<configuration>
+	<typeAliases>
+		<typeAlias type="com.webflex.vo.WebflexUserVO" alias="User"/>
+		<typeAlias type="com.webflex.vo.PassVO" alias="P"/>
+		<typeAlias type="com.webflex.vo.WfBoardVO" alias="board"/>
+		<typeAlias type="com.webflex.vo.HelpNoticeVO" alias="h" />
+		<typeAlias type="com.webflex.vo.WfReplyVO" alias="r"/>
+		<typeAlias type="com.webflex.vo.ChangeVO" alias="c"/>
+		<typeAlias type="com.webflex.vo.CommentVO" alias="comment"/>
+	</typeAliases>
+</configuration>

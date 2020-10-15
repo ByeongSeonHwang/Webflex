@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="adminUser">
+
+<select id="userList" resultType="User">
+	select * from wf_user where authority = 'user'
+</select>
+
+ <!--휴면계정 변환 -->
+<update id="updateUser">
+update wf_user set dmaccount = 0 where email = #{email}
+</update>
+
+<!-- 휴면계정 복구 -->
+<update id="dmaccountUser">
+update wf_user set dmaccount = 1 where email = #{email}
+</update>
+
+<select id="ulist" resultType="int">
+select count(*) from wf_user where authority = 'user'
+</select>
+
+<select id="user_search" resultType="User">
+	select * from wf_user where email like '%' || #{search} || '%'or name like '%' || #{search} ||'%' or nick like '%' || #{search} || '%' order by joindate desc
+</select>
+
+
+</mapper>

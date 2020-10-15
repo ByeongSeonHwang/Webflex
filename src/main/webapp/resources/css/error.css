@@ -1,0 +1,88 @@
+@charset "UTF-8";
+
+@font-face {
+	font-family: 'BebasNeue';
+	src: url("../images/BebasNeue.otf");
+	font-family: 'NanumSquareRound';
+	src:
+		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/NanumSquareRound.woff')
+		format('woff');
+	font-weight: normal;
+	font-style: normal;
+	font-size: 1.5rem;
+}
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,a,button,form,fieldset,p,blockquote{margin:0;padding:0}
+img, fieldset {border:none}
+body, dl, dt, dd, th, td, div, p, a, button, table,li, form, fieldset,legend, input, button, textarea, select {}
+body, dl, dt, dd, th, td, div, p, a, button, table,li {font-size:12px;}
+form, fieldset,legend, input, button, textarea, select {font-size:13px}
+ul, ol {list-style:none}
+table {border-collapse:collapse}
+input, textarea {display:inline-block;font-size:13px;vertical-align:middle}
+textarea {resize:none} 
+address, em {font-style:normal}
+th, td {padding:0;vertical-align:top;text-align:left;font-weight:normal}
+header {
+	margin-left: 40px;
+	margin-top: 20px;
+}
+html {
+	font-family: 'BebasNeue', 'NanumSquareRound';
+	font-weight: lighter;
+}
+
+#main {
+	font-size : 25px;
+	border: none;
+	margin-top : 7.5%;
+	margin-left: auto;
+	margin-right: auto;
+	width: 30%;
+	padding: 60px 10px;
+	text-align: center;	
+}
+
+body {
+	position : absolute;
+	background-image: url("../images/groot.png");
+	background-repeat: no-repeat;
+	color: white;
+	background-size: 100%;
+}
+h3{
+	text-align : center;
+	width: 280x;
+	height: 35px;
+	border-style: solid;
+	border-width: 0 0 0 3px;
+	padding: 15px;
+	word-break: break-all;
+	border-color: #DB202C;
+	color: white;
+	margin : auto;
+	font-size : 25px;
+}
+#main_btn, #logout_btn{
+	font-family : 'BebasNeue', 'NanumSquareRound';
+	width: 8em;
+	height: 2em;
+	border-style: solid;
+	background-color: white;
+	border: 150px;
+	border-radius: 10px;
+	margin-right: -4px;
+	font-size: 20px;
+	color: #DB202C;
+	margin: auto;
+	
+}
+
+#main_btn:hover, #logout_btn:hover{
+	font-family : 'BebasNeue', 'NanumSquareRound';
+	border-width: 0 0 0 13px;
+	background-color: #DB202C;
+	border-color: white;
+	color: white;
+	font-size:	20px;
+	box-shadow: 1px 1px 1px white;
+}

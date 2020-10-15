@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.webflex.dao.MainDAOImpl">
+
+	<!-- DB컬럼명과 VO클래스의 필드명 매핑작업 -->
+
+	<resultMap type="com.webflex.vo.MainVO" id="MainMap">
+
+		<id column="movie_id" property="movieId" />
+
+		<result column="movie_title" property="movieTitle" />
+
+		<result column="movie_sub_title" property="movieSubTitle" />
+
+		<result column="movie_poster_path" property="moviePosterPath" />
+
+		<result column="movie_category" property="movieCategory" />
+
+		<result column="movie_content" property="movieContent" />
+		
+		<result column="movie_rating" property="movieRating" />
+		
+		<result column="movie_like" property="movieLike" />
+		
+		<result column="movie_card_back_path" property="movieCardBackPath" />
+		
+		<result column="movie_card_video_path" property="movieCardVideoPath" />
+		
+		<result column="movie_actor" property="movieActor" />
+		
+		<result column="inputdate" property="inputDate" />
+	
+	</resultMap>
+	
+	<!-- 카테고리로 찾기 -->
+	<select id="searchMovieCategory" resultMap="MainMap">
+		select * from movie_main where movie_category= #{movieInfo} order by movie_id desc
+	</select>
+	<!-- 고유ID로 찾기 -->
+	<select id="searchMovieId" resultMap="MainMap">
+		select * from movie_main where movie_id= #{movieId} order by movie_id desc
+	</select>
+	<!-- 모든 정보찾기 -->
+	<select id="allSearchMovie" resultMap="MainMap">
+		select * from movie_main order by movie_id desc
+	</select>
+	
+	<!-- 영화 넣기 -->
+	<insert id="addMovie">
+		insert into MOVIE_MAIN (movie_id,movie_title,movie_sub_title,movie_poster_path,movie_category,movie_content,movie_rating,movie_card_back_path,movie_card_video_path,movie_actor,inputdate) 
+values(main_no_seq.nextval,#{movieTitle},#{movieSubTitle},#{moviePosterPath},#{movieCategory},#{movieContent},#{movieRating},#{movieCardBackPath},#{movieCardVideoPath},#{movieActor},sysdate)
+	</insert>
+	
+	<!-- 영화 삭제 -->
+	<delete id="delMovie">
+		delete MOVIE_MAIN where movie_id=#{movieId}
+	</delete>
+	
+	<!-- 영화 수정 -->
+	<update id="updateMovie">
+		update MOVIE_MAIN set movie_content=#{movieContent} where movie_id=#{movieId}
+	</update>
+	
+	<!-- 영화 검색어로 검색 -->
+	<select id="searchMovieFind" resultMap="MainMap">
+		select *
+		from movie_main 
+		where movie_category Like '%' || #{search} || '%' or movie_actor Like '%' || #{search} || '%' or movie_title Like '%' || #{search} || '%'
+	</select>
+	
+	<!-- 최근 1달간 등록된 영화 -->
+	<select id="newContentMonth" resultMap="MainMap">
+		<![CDATA[select * from movie_main where inputdate > (select SYSDATE - (INTERVAL '1' month) from dual) order by movie_id desc]]>
+	
+	</select>
+	
+	<!-- 오늘 업데이트된 영화 -->
+	<select id="newContentDay" resultMap="MainMap">
+		<![CDATA[select * from movie_main where inputdate > (select SYSDATE - (INTERVAL '1' day) from dual) order by movie_id desc]]>
+	</select>	
+	
+	<!-- 사용자가 관심있어하는 최근 컨텐츠 -->
+	<select id="searchMovieCategoryMonth" resultMap="MainMap">
+		<![CDATA[select * from movie_main where inputdate > (select SYSDATE - (INTERVAL '1' month) from dual) and movie_category=#{divcate} order by movie_id]]>
+	</select>
+	
+	<!-- 운영자 코멘트 -->
+	<select id="CommentAll" resultType="comment">
+		select * from movie_comment where movie_id=#{movie_id}
+	</select>
+	
+	<select id="movie_info_search" resultMap="MainMap">
+		select * from movie_main where movie_category Like '%' || #{search} || '%' or movie_actor Like '%' || #{search} || '%' or movie_title Like '%' || #{search} || '%'
+	</select>
+	
+	<select id="get_category_movie" resultMap="MainMap">
+		select * from movie_main where movie_category = #{nextToken}
+	</select>
+	
+	
+	
+</mapper>

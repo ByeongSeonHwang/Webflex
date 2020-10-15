@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd
+		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	
+	<!-- aop자동 프록시 설정 -->
+	<aop:aspectj-autoproxy/>
+	<!-- 프록시는 사용자 요청을 받고 대리하여 업무를 처리하는 대리인 역할. -->
+	<!-- aspectj는 aop에서 사용하는 문법을 말한다. -->
+	
+	<!-- 스프링 JDBC -->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="oracle.jdbc.OracleDriver" />
+		<!-- driverClassName멤버변수에 value속성값을 저장 -->
+		<property name="url" value="jdbc:oracle:thin:@127.0.0.1:1521:xe" />
+		<!-- 오라클 접속 주소 -->
+		<property name="username" value="wf_user" />
+		<!-- 오라클 접속 사용자 -->
+		<property name="password" value="wf_pw" />
+	</bean><!-- bean이 자바 클래스 단위. id명인 dataSource는 자바언어에서 객체명에 해당됨. -->
+	
+	<!-- Spring JDBC와 mybatis를 연결, mybatis 환경설정와 매퍼태그 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+		<!-- 스프링의 setter()메서드를 통한 의존성 주입. 
+		dataSource변수에 ref빈 아이디 dataSource를 호출해서 사용되게 함. -->
+		<property name="configLocation" value="classpath:/mybatis-config.xml" />
+		<!-- mybatis-config.xml파일의 역할을 데이터 저장빈 클래스 객체 별칭을 관리.
+		classpath경로는 이클립스 가상경로로 src/main/resources이고,
+		실제 톰캣 경로로 /WEB-INF/classes경로를 뜻한다. -->
+		<!-- mybatis 매퍼 xml태그로 쿼리문을 다루는 매퍼태그 위치 지정 -->
+		<property name="mapperLocations" value="classpath:com/webflex/mappers/*/*.xml"></property>
+	</bean>
+	
+	<!-- 트랜잭션 설정 => 트랜잭션 매니저 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	<tx:annotation-driven/><!-- @Transactional을 이용한 트랜잭션 관리가 가능 -->
+	
+	<!-- mybatis쿼리문 수행 객체를 설정 -->
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache">
+		<!-- clearCache는 임시메모리를 깨끗이 지운다. -->
+		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"/>
+		<!-- 생성자를 통한 의존성 DI 설정. constructor는 생성자를 말함. -->
+	</bean>
+	
+	<!-- 메일 객체 -->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+    	<property name="host" value="smtp.gmail.com" />
+      	<property name="port" value="587" />
+      	<property name="username" value="chuck5732590@gmail.com" />
+      	<property name="password" value="january5732590" />
+  
+      	<!-- email 요청시는 SMTP -->
+   	   	<property name="javaMailProperties">
+         	<props>
+            	<prop key="mail.transport.protocol">smtp</prop>
+            	<prop key="mail.smtp.auth">true</prop>
+            	<prop key="mail.smtp.starttls.enable">true</prop>
+            	<prop key="mail.debug">true</prop>
+         	</props>
+      	</property>
+	</bean>
+	
+	
+	<!-- Model *DAOImpl의 @Repository로 설정된 부분을 스프링에서 오토스캔하게 등록 -->
+	<context:component-scan base-package="com.webflex.dao" />
+	
+	<!-- 서비스 오토스캔 추가
+		서비스(Service)의 역할:
+			1. 컨트롤러와 모델 DAO를 연결하는 중간 매개체 역할
+			2. 고객의 추가 요구 사항을 반영하는 서비스
+			3. 스프링의 aop를 통한 트랜잭션을 적용함으로써 레코드 정확도, 일관성, 원자성의
+			원칙을 지켜서 사이트의 신뢰도를 가져온다. 자료의 불일치성을 완전히 제거한다. -->
+	<context:component-scan base-package="com.webflex.service" />
+	
+	<!-- AOP를 XML방식으로 설정 -->
+	<aop:config/>
+		
+</beans>

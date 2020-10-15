@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="notice" >
+
+<select id="blist" resultType="h">
+	select * from
+    (select rowNum rNum,notice_no,notice_writer,notice_title,notice_cont,notice_hit,notice_date from
+    (select * from wf_notice order by notice_no desc))
+    where rNum &gt;= #{startrow} and rNum &lt;= #{endrow}
+</select>
+
+<insert id="noticeList" parameterType="h">
+insert into wf_notice(notice_no, notice_title, notice_writer, notice_cont, notice_date)
+ values(notice_no_seq.nextval,#{notice_title}, #{notice_writer}, #{notice_cont},sysdate)
+</insert>
+
+<select id="noticeCount" parameterType="h">
+select count(notice_no) from wf_notice
+</select>
+
+<select id="notice" resultType="h">
+select * from wf_notice where notice_no =#{notice_no}
+</select>
+
+<update id="noticeEdit" parameterType="h">
+update wf_notice set notice_title=#{notice_title}, notice_writer=#{notice_writer},notice_cont=#{notice_cont}
+ where notice_no = #{notice_no}
+</update>
+
+<delete id="contentDelete">
+delete from wf_notice where notice_no = #{notice_no}
+</delete>
+
+
+<select id="listCount" resultType="int">
+select count(*) from wf_notice order by notice_no desc
+</select>
+ 
+<select id="search_notice" resultType="h">
+	select * from wf_notice where notice_title LIKE '%'||#{search}||'%' or notice_writer LIKE '%'||#{search}||'%' order by notice_no desc
+</select>
+</mapper>

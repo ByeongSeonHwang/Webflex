@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="User">
+	<insert id="wf_user_join" parameterType="User">
+		insert into wf_user(email,password,name,nick,year,month,day,phone,joindate)
+		values(#{email},#{password},#{name},#{nick},#{year},#{month},#{day},#{phone},sysdate)
+	</insert>
+	
+	<select id="find_email" resultType="java.lang.String">
+		select email from wf_user where email=#{email}
+	</select>
+	
+	<select id="find_pw" resultType="java.lang.String">
+		select password from wf_user where email=#{email}
+	</select>
+	
+	<select id="pay_check" resultType="int">
+		select payment from wf_user where email=#{email}
+	</select>
+	
+	<select id="get_authority" resultType="String">
+		select authority from wf_user where email = #{email}
+	</select>
+	
+	<select id="user_info" resultType="User">
+		select * from wf_user where email=#{email}
+	</select>
+	
+	<update id="payment_update">
+		update wf_user set payment = 1, mop = #{mop}, pass_no = #{pass_no}, paydate = sysdate where email = #{email}
+	</update>
+	
+	<update id="password_edit" parameterType="User">
+		update wf_user set password = #{password} where email = #{email}
+	</update>
+	
+	<select id="get_nick" resultType="String">
+		select nick from wf_user where email = #{email}
+	</select>
+	
+	<update id="user_nick_change">
+		update wf_user set nick = #{nick} where email = #{email}
+	</update>
+	
+	<update id="cat_insert">
+		update wf_user set category = ${category} where email = #{email}  
+	</update>
+	
+	<select id="nick_count" resultType="int">
+		select count(*) from wf_user where nick = #{nick}
+	</select>
+	
+	<update id="category_update">
+		update wf_user set category = #{category} where email = #{email}
+	</update>
+	
+	<update id="category_del">
+		update wf_user set category = null where email = #{email}
+	</update>
+	
+	<select id="get_pay_end_date" resultType="java.sql.Date">
+		select paydate + 30 from wf_user where email=#{email}
+	</select>
+	
+	<delete id="sign_out">
+		delete from wf_user where email = #{email}
+	</delete>
+	
+	<update id="paymentReset">
+		<![CDATA[update wf_user set payment = 0, mop = '미결제' where paydate < (select SYSDATE - (INTERVAL '30' DAY) from dual)]]>
+	</update>
+	
+	<select id="get_category" resultType="String">
+		select category from wf_user where email = #{email}
+	</select>
+	
+</mapper>
+
+
+
+
+

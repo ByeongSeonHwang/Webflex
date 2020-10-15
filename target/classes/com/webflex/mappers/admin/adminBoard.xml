@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="adminBoard" >
+<select id="Ublist" resultType="board">
+select * from
+    (select rowNum rNum,board_no,board_writer,board_title,board_hit,board_date from
+    (select * from wf_board order by board_no desc))
+    where rNum &gt;= #{startrow} and rNum &lt;= #{endrow}
+</select>
+
+<select id="board" resultType="board">
+select * from wf_board where board_no = #{board_no}
+</select>
+
+<delete id="boardDelete">
+delete from wf_board where board_no = #{board_no}
+</delete>
+
+<select id="BoardlistCount" resultType="int">
+select count(*) from wf_board order by board_no desc
+</select>
+
+<select id="board_search" resultType="board">
+	select * from wf_board where board_title like '%'||#{search}||'%' or board_writer like '%'||#{search}||'%' order by board_no desc
+</select>
+
+</mapper>
