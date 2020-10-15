@@ -9,6 +9,7 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	select * from wf_user where authority = 'user'
 </select>
 
+
  <!--휴면계정 변환 -->
 <update id="updateUser">
 update wf_user set dmaccount = 0 where email = #{email}

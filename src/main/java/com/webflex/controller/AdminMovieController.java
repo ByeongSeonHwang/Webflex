@@ -176,7 +176,7 @@ public class AdminMovieController {
 		
 		CommentUpdateVO vo = new CommentUpdateVO();
 		
-		System.out.println("여기까지 기동1");
+		System.out.println("여기까지 기동12");
 		System.out.println(movie_title);
 		int movieId = service.chageMovie_title(movie_title);
 		

@@ -29,7 +29,7 @@ select movie_id from movie_main where movie_title = #{movie_title}
 </select>
 
 <update id="commentUpdate">
-update movie_comment set ${name} = #{movie_comment}
+update movie_comment set ${name} = #{movie_comment} where movie_id =
 </update>
 
 
